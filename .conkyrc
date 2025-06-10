@@ -1,0 +1,106 @@
+-- =========================
+-- Conky Configuration
+-- =========================
+conky.config = {
+    -- Window
+    own_window = true,
+    own_window_type = 'normal',
+    own_window_class = 'Conky',
+    own_window_transparent = true,
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    background = true,
+    double_buffer = true,
+
+    -- Borders & Appearance
+    border_width = 0,
+    draw_borders = false,
+    draw_graph_borders = false,
+    draw_outline = false,
+    draw_shades = true,
+    stippled_borders = 0,
+    default_shade_color = '#000000',
+    default_outline_color = 'black',
+
+    -- Position & Size
+    alignment = 'top_right',
+    gap_x = 0,
+    gap_y = 64,
+    minimum_width = 420,
+    minimum_height = 420,
+    maximum_width = 420,
+
+    -- Font
+    font = 'JetBrainsMono Nerd Font Mono:size=10',
+    use_xft = true,
+
+    -- Update & Sampling
+    update_interval = 1.0,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    no_buffers = true,
+
+    -- Output
+    out_to_console = false,
+    out_to_ncurses = false,
+    out_to_stderr = false,
+    out_to_x = true,
+
+    -- Misc
+    show_graph_range = false,
+    show_graph_scale = false,
+    uppercase = false,
+    use_spacer = 'none',
+    extra_newline = false,
+
+    -- =========================
+    -- Color Palette
+    -- =========================
+    color1 = '#e09cff', -- brighter purple accent
+    color2 = '#d087ff', -- brighter purple accent
+    color3 = '#f3bfff', -- light bright purple
+    color4 = '#c084fc', -- deep bright purple
+    color5 = '#22223b',
+    default_color = '#f3f3f3',
+}
+
+-- =========================
+-- Helper Functions
+-- =========================
+local function get_iface()
+    local f = io.popen("ip route | grep default | awk '{print $5}'")
+    local iface = f:read("*l")
+    f:close()
+    return iface or "wlan0"
+end
+
+local iface = get_iface()
+
+-- =========================
+-- Main Text
+-- =========================
+conky.text = string.format([[
+${goto 20}${font JetBrainsMono Nerd Font Mono:size=10}${color3}󰌽 OS${font}${color}
+${goto 40}${color1}Distro:${color} ${execi 600 awk -F'=' '/^NAME=/{gsub(/"/,"",$2); print $2}' /etc/os-release}   ${color1}Host:${color} $nodename
+${goto 40}${color1}Kernel:${color} $kernel   ${color1}Uptime:${color} $uptime
+
+${goto 20}${color3}󰍛 MEMORY & CPU${color}
+${goto 40}${color1}RAM:${color} $mem/$memmax ($memperc%%)
+${goto 40}${color1}Swap:${color} $swap/$swapmax ($swapperc%%)
+${goto 40}${color1}CPU Freq:${color} ${freq_g}GHz   ${color1}Load:${color} $cpu%%
+${goto 40}${color1}Battery:${color} ${battery_percent BAT0}%%   ${color1}CPU Temp:${color} ${execi 30 sensors | grep -m 1 '°C' | awk '{print $2}'}
+
+${goto 20}${color3}󰋊 FILESYSTEM${color}
+${goto 40}${color1}Root:${color} ${fs_used /}/${fs_size /} (${fs_used_perc /}%%)
+
+${goto 20}${color3}󰖩 NETWORK${color}
+${goto 40}${color1}Interface:${color} %s
+${goto 40}${color1}SSID:${color} ${wireless_essid %s}
+${goto 40}${color1}IP Address:${color} ${addr %s}
+${goto 40}${color1}Total Sent:${color} ${totalup %s}   ${color1}Total Recv:${color} ${totaldown %s}
+${goto 40}${color1}Up Speed:${color} ${upspeed %s}/s   ${color1}Down Speed:${color} ${downspeed %s}
+
+${goto 20}${color3}󰍛 PROCESSES${color}
+${goto 40}${color1}Total:${color} $processes   ${color1}Running:${color} $running_processes   ${color1}Threads:${color} $running_threads
+]], iface, iface, iface, iface, iface, iface, iface, iface, iface, iface)
