@@ -57,10 +57,10 @@ conky.config = {
     -- =========================
     -- Color Palette
     -- =========================
-    color1 = '#ff4c4c', -- bright red accent
-    color2 = '#ff6666', -- lighter red accent
-    color3 = '#ffb3b3', -- lightest red
-    color4 = '#b30000', -- deep red
+    color1 = '#FE8458', -- base accent (orange)
+    color2 = '#FF9B72', -- lighter accent
+    color3 = '#FFD2C2', -- lightest accent
+    color4 = '#C95C2B', -- deep accent
     color5 = '#22223b',
     default_color = '#f3f3f3'
 }
