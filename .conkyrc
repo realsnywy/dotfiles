@@ -57,11 +57,11 @@ conky.config = {
     -- =========================
     -- Color Palette
     -- =========================
-    color1 = '#686b6f', -- base accent (grey)
-    color2 = '#8a8d91', -- lighter accent
-    color3 = '#acafb3', -- lightest accent
-    color4 = '#46494d', -- deep accent
-    color5 = '#22223b',
+    color1 = '#7a5a94', -- base accent
+    color2 = '#9982b3', -- lighter accent
+    color3 = '#b9a9d1', -- lightest accent
+    color4 = '#5b3e75', -- deep accent
+    color5 = '#3a2f42',
     default_color = '#f3f3f3'
 }
 
